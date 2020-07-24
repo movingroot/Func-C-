@@ -1,0 +1,10 @@
+// f(x) = x+2
+Func<int, int> f = (x) => x + 2;
+int i = f(1);
+Console.WriteLine(i);
+
+// f(x) = 2x+1
+f = (x) => 2 * x + 1;
+i = f(1);
+Console.WriteLine(i);
+            
