@@ -1,0 +1,27 @@
+class Program
+{
+    static int Rectangle(int a, int b)
+    {
+        return a * b;
+    }
+
+    static int Square(int a, int b)
+    {
+        if (a == b)
+            return a * b;
+        else
+            return 0;
+    }
+
+    private delegate int AreaCalculatorDelegate(int x, int y);
+        
+    static void Main(string[] args)
+    {
+        AreaCalculatorDelegate rect = Rectangle;
+        AreaCalculatorDelegate sqre = Square;
+        int j = rect(1, 2);
+        int k = sqre(3, 3);
+        Console.WriteLine("j = {0}", j);
+        Console.WriteLine("k = {0}", k);  
+    }
+}
