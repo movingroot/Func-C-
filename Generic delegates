@@ -1,0 +1,58 @@
+public partial class Program
+{
+    private delegate T FormulaDelegate<T>(T a, T b);
+    // T : represent the data type that would be defined when declaring the variable typed FormulaDelegate
+
+    private static int AddInt(int x, int y)
+    {
+        return x + y;
+    }
+
+    private static double AddDouble(double x, double y)
+    {
+        return x + y;
+    }
+
+    public static void GenericDelegateInvoke()
+    {
+        FormulaDelegate<int> intAddition = AddInt;
+        FormulaDelegate<double> doubleAddition = AddDouble;
+        Console.WriteLine("Invoking intAddition(2, 3)");
+        Console.WriteLine("Result= {0}"
+            , intAddition(2, 3));
+        Console.WriteLine("Invoking doubleAddition(2.2, 3.4)");
+        Console.WriteLine("Reult= {0}"
+            , doubleAddition(2.2, 3.4));
+    }
+
+    private delegate void AdditionDelegate<T1, T2>(T1 value1, T2 value2);
+    // Delegate can also apply the multigeneric template in one delegate declaration
+
+    private static void AddIntDouble(int x, double y)
+    {
+        Console.WriteLine("int {0} + double {1} = {2}"
+            , x, y, x + y);
+    }
+
+    private static void AddFloatDouble(float x, double y)
+    {
+        Console.WriteLine("float {0} + double {1} = {2}"
+            , x, y, x + y);
+    }
+
+    private static void VoidDelegateInvoke()
+    {
+        AdditionDelegate<int, double> intDoubleAdd = AddIntDouble;
+        AdditionDelegate<float, double> floatDoubleAdd = AddFloatDouble;
+        Console.WriteLine("Invoking intDoubleAdd delegate");
+        intDoubleAdd(1, 2.5);
+        Console.WriteLine("Invoking floatDoubleAdd delegate");
+        floatDoubleAdd(1.2F, 4.3);
+    }
+
+    static void Main(string[] args)
+    {
+        GenericDelegateInvoke();
+        VoidDelegateInvoke();
+    }
+}
