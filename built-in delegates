@@ -1,0 +1,73 @@
+    // private delegate void AdditionDelegate<T1, T2>(T1 value1, T2 value2);
+    // is replaced by Action<int, double> and Action<float, double>
+    
+    private static void AddIntDouble(int x, double y)
+    {
+        Console.WriteLine("int {0} + double {1} = {2}"
+            , x, y, x + y);
+    }
+
+    private static void AddFloatDouble(float x, double y)
+    {
+        Console.WriteLine("float {0} + double {1} = {2}"
+            , x, y, x + y);
+    }
+
+    private static void ActionDelegateInvoke()
+    {
+        Action<int, double> intDoubleAddAction = AddIntDouble;
+        Action<float, double> floatDoubleAddAction = AddFloatDouble;
+
+        Console.WriteLine("Invoking intDoubleAddAction delegate");
+        string[] input1 = Console.ReadLine().Split(" ");
+        int a = int.Parse(input1[0]);
+        double b = double.Parse(input1[1]);
+        intDoubleAddAction(a, b);
+
+        Console.WriteLine("Invoking floatDoubleAddAction delegate");
+        string[] input2 = Console.ReadLine().Split(" ");
+        float c = float.Parse(input2[0]);
+        double d = double.Parse(input2[1]);
+        floatDoubleAddAction(c, d);
+    }
+    
+    
+    // private delegate TResult AddAndConvert<T1, T2, TResult> (T1 digit1, T2 digit2);
+    // is replaced by Func<int, double, float>, Func<float, double, int>
+    
+    private static float AddIntDoubleConvert(int x, double y)
+    {
+        float result = (float)(x + y);
+        Console.WriteLine("int {0} + double {1} = float {2}"
+            , x, y, result);
+
+        return result;
+    }
+
+    private static int AddFloatDoubleConvert(float x, double y)
+    {
+        int result = (int)(x + y);
+        Console.WriteLine("float {0} + double {1} = int {2}"
+            , x, y, result);
+
+        return result;
+    }
+
+    private static void FuncDelegateInvoke()
+    {
+        Func<int, double, float> intDoubleAddConvertToFloatFunc = AddIntDoubleConvert;
+        Func<float, double, int> floatDoubleAddConvertToIntFunc = AddFloatDoubleConvert;
+
+        Console.WriteLine("Invoking intDoubleAddConvertToFloatFunc delegate");
+        string[] input1 = Console.ReadLine().Split(" ");
+        int a = int.Parse(input1[0]);
+        double b = double.Parse(input1[1]);
+        intDoubleAddConvertToFloatFunc(a, b);
+
+        Console.WriteLine("Invoking floatDoubleAddConvertToIntFunc delegate");
+        string[] input2 = Console.ReadLine().Split(" ");
+        float c = float.Parse(input2[0]);
+        double d = double.Parse(input2[1]);
+        floatDoubleAddConvertToIntFunc(c, d);
+    }
+    
