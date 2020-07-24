@@ -1,0 +1,89 @@
+// Delegate.Combine()
+
+public partial class Program
+{      
+    private static void Add(int x, int y)
+    {
+        Console.WriteLine("{0} + {1} = {2}"
+            , x, y, x+y);
+    }
+
+    private static void Subtract(int x, int y)
+    {
+        Console.WriteLine("{0} - {1} = {2}"
+            , x, y, x-y);
+    }
+
+    private static void Multiply(int x, int y)
+    {
+        Console.WriteLine("{0} * {1} = {2}"
+            , x, y, x*y);
+    }
+
+    private static void Division(int x, int y)
+    {
+        Console.WriteLine("{0} / {1} = {2} + {3}"
+            , x, y, x/y, (double)x%y);
+    }
+
+    private delegate void CalculatorDelegate(int a, int b);
+
+    private static void CombineDelegate()
+    {
+        CalculatorDelegate calcAll =
+            (CalculatorDelegate)Delegate.Combine(new CalculatorDelegate[] {
+            Add, Subtract, Multiply, Division});
+        // create the array of delegates
+        Delegate[] calcList = calcAll.GetInvocationList(); 
+		// GetInvocationlist() - By retrieving the delegate array, iterate over the array like with ordinary arrays
+
+        Console.WriteLine("Enter two numbers below, divided with space");
+        string[] input = Console.ReadLine().Split();
+        int x = int.Parse(input[0]);
+        int y = int.Parse(input[1]);
+
+        // By retrieving the delegate array, we can iterate over the array like with binary arrays
+        Console.WriteLine("Total delegates in calcAll: {0}"
+            , calcList.Length);
+        calcAll(x, y);
+    }
+        
+    static void Main(string[] args)
+    {
+        CombineDelegate();
+    }
+}
+
+
+// Delegate.Remove()
+
+    private static void RemoveDelegate()
+    {
+        CalculatorDelegate addDel = Add;
+        CalculatorDelegate subDel = Subtract;
+        CalculatorDelegate mulDel = Multiply;
+        CalculatorDelegate divDel = Division;
+
+        CalculatorDelegate calcDelegates1 =
+            (CalculatorDelegate)Delegate.Combine(addDel, subDel);
+        CalculatorDelegate calcDelegates2 =
+            (CalculatorDelegate)Delegate.Combine(calcDelegates1, mulDel);
+        CalculatorDelegate calcDelegates3 =
+            (CalculatorDelegate)Delegate.Combine(calcDelegates2, divDel);
+
+        CalculatorDelegate calcDelegates4 =
+            (CalculatorDelegate)Delegate.Remove(calcDelegates3, mulDel);
+
+        Console.WriteLine("Enter two numbers below, divided with space");
+        string[] input = Console.ReadLine().Split();
+        int x = int.Parse(input[0]);
+        int y = int.Parse(input[1]);
+        Console.WriteLine("Total delegates in calcDelegate4: {0}"
+            , calcDelegates4.GetInvocationList().Length);
+        calcDelegates4(x, y);
+    }
+        
+    static void Main(string[] args)
+    {
+        RemoveDelegate();
+    }
