@@ -1,0 +1,49 @@
+using System;
+using System.Threading;
+
+public class ServerClass
+{
+    public void InstanceMethod()
+    {
+        Console.WriteLine("ServerClass.InstanceMethod is running on another thread.");
+        Thread.Sleep(3000);
+        Console.WriteLine("The instance method called by the worker thread has ended.");
+    }
+
+    public void StaticMethod()
+    {
+        Console.WriteLine("ServerClass.StaticMethod is running on another thread.");
+        Thread.Sleep(5000);
+        Console.WriteLine("The static method called by the worker thread has ended.");
+    }
+}
+
+public class Sample
+{
+    public static void Main()
+    {
+        ServerClass serverObject = new ServerClass();
+
+        // Thread InstanceCaller = new Thread(new ThreadStart(serverObject.InstanceMethod));
+        // InstanceCaller.Start();
+        
+        new Thread(() =>
+        {
+            serverObject.InstanceMethod();
+        }).Start();
+        
+
+        Console.WriteLine("The Main() thread calls this after starting the new thread for instance method.");
+
+        // Thread StaticCaller = new Thread(new ThreadStart(serverObject.StaticMethod));
+        // StaticCaller.Start();
+        
+        new Thread(() =>
+        {
+            serverObject.StaticMethod();
+        }).Start();
+        
+
+        Console.WriteLine("The Main() thread calls this after starting the new thread for static method.");
+    }
+}
