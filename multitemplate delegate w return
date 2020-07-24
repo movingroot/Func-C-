@@ -1,0 +1,49 @@
+public class Program
+{
+    private delegate TResult AddAndConvert<T1, T2, TResult>(T1 digit1, T2 digit2);
+
+    private static float AddIntDoubleConvert(int x, double y)
+    {
+        float result = (float)(x + y);
+        
+        Console.WriteLine("(int) {0} + (double) + {1} = (float) {2}"
+            , x, y, result);
+
+        return result;
+    }
+
+    private static int AddFloatDoubleConvert(float x, double y)
+    {
+        int result = (int)(x + y);
+
+        Console.WriteLine("(float) {0} + (double) {1} = (int) {2}"
+            , x, y, result);
+
+        return result;
+    }
+
+    private static void ReturnValueDelegateInvoke()
+    {
+        AddAndConvert<int, double, float>
+            intDoubleAddConvertToFloat = AddIntDoubleConvert;
+        AddAndConvert<float, double, int>
+            floatDoubleAddConvertToInt = AddFloatDoubleConvert;
+
+        Console.WriteLine("Invoking intDoubleAddConvertToFloat delegate");
+        string[] input1 = Console.ReadLine().Split(" ");
+        int a = int.Parse(input1[0]);
+        double b = double.Parse(input1[1]);
+        intDoubleAddConvertToFloat(a, b);
+
+        Console.WriteLine("Invoking floatDoubleAddConvertToInt delegate");
+        string[] input2 = Console.ReadLine().Split(" ");
+        float c = float.Parse(input2[0]);
+        double d = double.Parse(input2[1]);
+        floatDoubleAddConvertToInt(c, d);
+    }    
+
+    public static void Main()
+    {
+        ReturnValueDelegateInvoke();
+    }
+}
