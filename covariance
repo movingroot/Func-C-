@@ -1,0 +1,69 @@
+// Two methods returning different objects; StreamWriter and StringWriter
+// The return value data type is also different; TextWriter object
+// Since StreamWriter and StringWriter are derived from the TextWriter object, 
+// covariance can be applied in assigning two methods to the covarianceDelegate delegate
+
+
+public class Program
+{
+    private delegate TextWriter CovarianceDelegate();
+
+    private static void CovarianceStreamWriterInvoke()
+    {
+        CovarianceDelegate covDelegate;
+        Console.WriteLine("Invoking CovarianceStreamWriterInvoke method: ");
+        covDelegate = StreamWriterMethod;
+        StreamWriter sw = (StreamWriter)covDelegate();
+        sw.AutoFlush = true;
+        Console.SetOut(sw);
+    }
+
+    private static void CovarianceStringWriterInvoke()
+    {
+        CovarianceDelegate covDelegate;
+        Console.WriteLine("Invoking CovarianceStringWriterInvoke method:");
+        covDelegate = StringWriterMethod;
+        StringWriter strW = (StringWriter)covDelegate();
+        Console.WriteLine(strW.ToString());
+    }
+
+    private static StreamWriter StreamWriterMethod()
+    {
+        DirectoryInfo[] arrDirs = new DirectoryInfo(@"C:\Windows")
+            .GetDirectories("s*", SearchOption.TopDirectoryOnly);
+
+        StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
+
+        foreach (DirectoryInfo dir in arrDirs)
+        {
+            sw.WriteLine(dir.Name);
+        }
+        return sw;
+    }
+
+    private static StringWriter StringWriterMethod()
+    {
+        StringWriter strWriter = new StringWriter();
+        string[] arrString = new string[]
+        {
+            "Covariance"
+            , "example"
+            , "using"
+            , "StringWriter"
+            , "object"
+        };
+
+        foreach (string str in arrString)
+        {
+            strWriter.Write(str);
+            strWriter.Write(' ');
+        }
+        return strWriter;
+    }
+
+    public static void Main()
+    {
+        CovarianceStreamWriterInvoke();
+        CovarianceStringWriterInvoke();
+    }
+}
